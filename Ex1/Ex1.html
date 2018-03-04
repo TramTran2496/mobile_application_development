@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script src="jquery-1.9.1.min.js"></script>
+		<title>Coordinates to address</title>
+	</head>
+	<body>
+		<h1>Google Maps Geocoding service</h1>
+		<label>Input coordinates</label><br />
+		<label>Lat:</label><input id="lat" type="number" step="0.000001"/><br />
+		<label>Long:</label><input id="lng" type="number" step="0.000001"/><br />
+		<button onClick="getAddress()">Get Address</button><br />
+		<label id="err" style="color: red;"></label><br />
+		<h3 id="result"></h3>
+	</body>
+	<script>
+		function getAddress() {
+			let lat = document.getElementById("lat").value;
+			let lng = document.getElementById("lng").value;
+			if(lat != "" & lng != ""){
+				$.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + ',' + lng + "&key=AIzaSyDhPSQLmszORHRShQmEGo2yKujnYN7NpPE")
+				.success(function(data){
+					if(data.status == "OK"){
+						document.getElementById("result").innerHTML = data.results[0].formatted_address;
+						document.getElementById("err").innerHTML = "";
+					} else{
+						document.getElementById("err").innerHTML = "Request failed with reason: " + data.status;
+						document.getElementById("result").innerHTML = "";
+					}
+				})
+				.error(function(response){
+					let err = "";
+					try{
+						err = JSON.parse(response.responseText);
+					} catch(ex){
+						document.getElementById("err").innerHTML = ex;
+					}
+					if(err != ""){
+						document.getElementById("err").innerHTML = err.error_message;
+					}
+					document.getElementById("result").innerHTML = "";
+				});
+			} else {
+				document.getElementById("err").innerHTML = "Please input coordinates!";
+				document.getElementById("result").innerHTML = "";
+			}
+		}
+	</script>
+</html>
