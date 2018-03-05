@@ -22,7 +22,7 @@
 			let lat2 = document.getElementById("lat2").value;
 			let lng2 = document.getElementById("lng2").value;
 			if(lat1 != "" & lng1 != "" & lat2 != "" & lng2 != ""){
-				$.get("http://localhost:1000/Ex2.php?lat1=" + lat1 + "&lng1=" + lng1 + "&lat2=" + lat2 + "&lng2=" + lng2)
+				$.get("http://localhost/Ex2.php?lat1=" + lat1 + "&lng1=" + lng1 + "&lat2=" + lat2 + "&lng2=" + lng2)
 				.success(function(response){
 					let data = response;
 					try {
